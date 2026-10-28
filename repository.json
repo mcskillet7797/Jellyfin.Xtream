@@ -8,12 +8,12 @@
     "owner": "mcskillet7797",
     "versions": [
       {
-        "changelog": "Jellyfin 12.4 build of Kevinjil/Jellyfin.Xtream master (0.8.1 + fixes from January 2026) with the Jellyfin 12 support from Kevinjil/Jellyfin.Xtream#301: .NET 10, and VOD, series and catch-up playback fixed for 12.x.",
-        "checksum": "c44fa749e37ef67974cec22f4890b1ba",
-        "sourceUrl": "https://github.com/mcskillet7797/Jellyfin.Xtream/releases/download/v0.8.2-jf12.4/jellyfin-xtream_0.8.2.0.zip",
+        "changelog": "Jellyfin 12.4 build of Kevinjil/Jellyfin.Xtream master (0.8.1 + fixes from January 2026) with the Jellyfin 12 support from Kevinjil/Jellyfin.Xtream#301: .NET 10, and VOD, series and catch-up playback fixed for 12.x. 0.8.3: Xtream API requests are spaced at least 500 ms apart, so the daily guide refresh no longer trips provider flood protection.",
+        "checksum": "87f66a37c67448729f79ffd5188c8ed0",
+        "sourceUrl": "https://github.com/mcskillet7797/Jellyfin.Xtream/releases/download/v0.8.3-jf12.4/jellyfin-xtream_0.8.3.0.zip",
         "targetAbi": "12.4.0.0",
-        "timestamp": "2026-10-28T19:13:05Z",
-        "version": "0.8.2.0"
+        "timestamp": "2026-10-28T22:06:57Z",
+        "version": "0.8.3.0"
       }
     ]
   }

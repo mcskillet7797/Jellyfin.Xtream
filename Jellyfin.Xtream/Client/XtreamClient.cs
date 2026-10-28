@@ -39,6 +39,12 @@ namespace Jellyfin.Xtream.Client;
 /// <param name="logger">Instance of the <see cref="ILogger"/> interface.</param>
 public class XtreamClient(HttpClient client, ILogger<XtreamClient> logger) : IDisposable, IXtreamClient
 {
+    // The guide refresh queries the EPG of every channel in turn; providers with
+    // flood protection block the client when those requests arrive unthrottled.
+    private static readonly TimeSpan _minRequestInterval = TimeSpan.FromMilliseconds(500);
+    private static readonly Lock _slotLock = new();
+    private static DateTime _nextSlot = DateTime.MinValue;
+
     private readonly JsonSerializerSettings _serializerSettings = new()
     {
         Error = NullableEventHandler(logger),
@@ -102,9 +108,27 @@ public class XtreamClient(HttpClient client, ILogger<XtreamClient> logger) : IDi
         };
     }
 
+    private static async Task WaitForRequestSlotAsync(CancellationToken cancellationToken)
+    {
+        DateTime slot;
+        lock (_slotLock)
+        {
+            DateTime now = DateTime.UtcNow;
+            slot = _nextSlot > now ? _nextSlot : now;
+            _nextSlot = slot + _minRequestInterval;
+        }
+
+        TimeSpan wait = slot - DateTime.UtcNow;
+        if (wait > TimeSpan.Zero)
+        {
+            await Task.Delay(wait, cancellationToken).ConfigureAwait(false);
+        }
+    }
+
     private async Task<T> QueryApi<T>(ConnectionInfo connectionInfo, string urlPath, CancellationToken cancellationToken)
     {
         Uri uri = new Uri(connectionInfo.BaseUrl + urlPath);
+        await WaitForRequestSlotAsync(cancellationToken).ConfigureAwait(false);
         string jsonContent = await client.GetStringAsync(uri, cancellationToken).ConfigureAwait(false);
         return JsonConvert.DeserializeObject<T>(jsonContent, _serializerSettings)!;
     }
