@@ -1,0 +1,20 @@
+[
+  {
+    "category": "LiveTV",
+    "description": "Stream Live IPTV, Video On-Demand, and Series from an Xtream-compatible server using this plugin.\n",
+    "guid": "5d774c35-8567-46d3-a950-9bb8227a0c5d",
+    "name": "Jellyfin Xtream",
+    "overview": "Stream content from an Xtream-compatible server.",
+    "owner": "mcskillet7797",
+    "versions": [
+      {
+        "changelog": "Jellyfin 12.4 build of Kevinjil/Jellyfin.Xtream master (0.8.1 + fixes from January 2026) with the Jellyfin 12 support from Kevinjil/Jellyfin.Xtream#301: .NET 10, and VOD, series and catch-up playback fixed for 12.x.",
+        "checksum": "c44fa749e37ef67974cec22f4890b1ba",
+        "sourceUrl": "https://github.com/mcskillet7797/Jellyfin.Xtream/releases/download/v0.8.2-jf12.4/jellyfin-xtream_0.8.2.0.zip",
+        "targetAbi": "12.4.0.0",
+        "timestamp": "2026-10-28T19:13:05Z",
+        "version": "0.8.2.0"
+      }
+    ]
+  }
+]
