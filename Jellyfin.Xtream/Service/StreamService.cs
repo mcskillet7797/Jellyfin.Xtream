@@ -92,6 +92,16 @@ public partial class StreamService(IXtreamClient xtreamClient)
     public const int EpgPrefix = 0x5d774c3f;
 
     /// <summary>
+    /// Prefix for live TV category folders in the live channel.
+    /// </summary>
+    public const int LiveCategoryPrefix = 0x5d774c40;
+
+    /// <summary>
+    /// Prefix for live TV streams in the live channel.
+    /// </summary>
+    public const int LiveStreamPrefix = 0x5d774c41;
+
+    /// <summary>
     /// The time the media sources of channel items last changed shape.
     /// Jellyfin only rewrites the sources it saved for a channel item when the item changes,
     /// so channel media items carry this as their modification date.
@@ -208,6 +218,17 @@ public partial class StreamService(IXtreamClient xtreamClient)
             Tags = new List<string>(parsedName.Tags),
             Type = ChannelItemType.Folder,
         };
+    }
+
+    /// <summary>
+    /// Gets an iterator for the configured live TV categories.
+    /// </summary>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>IAsyncEnumerable{Category}.</returns>
+    public async Task<IEnumerable<Category>> GetLiveCategories(CancellationToken cancellationToken)
+    {
+        List<Category> categories = await xtreamClient.GetLiveCategoryAsync(Plugin.Instance.Creds, cancellationToken).ConfigureAwait(false);
+        return categories.Where((Category category) => Plugin.Instance.Configuration.LiveTv.ContainsKey(category.CategoryId));
     }
 
     /// <summary>
